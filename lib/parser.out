@@ -1,0 +1,383 @@
+Created by PLY version 3.11 (http://www.dabeaz.com/ply)
+
+Grammar
+
+Rule 0     S' -> expression
+Rule 1     expression -> func
+Rule 2     expression -> func doc
+Rule 3     empty -> <empty>
+Rule 4     func -> NAME LPAREN funcargs RPAREN
+Rule 5     func -> NAME LPAREN funcargs RPAREN funcret
+Rule 6     funcargs -> empty
+Rule 7     funcargs -> args
+Rule 8     funcargs -> args LSBRACE COMMA optargs RSBRACE
+Rule 9     args -> args COMMA arg
+Rule 10    args -> arg
+Rule 11    arg -> NAME
+Rule 12    arg -> argtype NAME
+Rule 13    argtype -> LPAREN TYPE RPAREN
+Rule 14    optargs -> optargs LSBRACE COMMA optargs RSBRACE
+Rule 15    optargs -> optarg
+Rule 16    optarg -> arg EQ VALUE
+Rule 17    funcret -> RET TYPE
+Rule 18    doc -> COMMENT
+
+Terminals, with rules where they appear
+
+COMMA                : 8 9 14
+COMMENT              : 18
+EQ                   : 16
+LPAREN               : 4 5 13
+LSBRACE              : 8 14
+NAME                 : 4 5 11 12
+RET                  : 17
+RPAREN               : 4 5 13
+RSBRACE              : 8 14
+TYPE                 : 13 17
+VALUE                : 16
+error                : 
+
+Nonterminals, with rules where they appear
+
+arg                  : 9 10 16
+args                 : 7 8 9
+argtype              : 12
+doc                  : 2
+empty                : 6
+expression           : 0
+func                 : 1 2
+funcargs             : 4 5
+funcret              : 5
+optarg               : 15
+optargs              : 8 14 14
+
+Parsing method: LALR
+
+state 0
+
+    (0) S' -> . expression
+    (1) expression -> . func
+    (2) expression -> . func doc
+    (4) func -> . NAME LPAREN funcargs RPAREN
+    (5) func -> . NAME LPAREN funcargs RPAREN funcret
+
+    NAME            shift and go to state 3
+
+    expression                     shift and go to state 1
+    func                           shift and go to state 2
+
+state 1
+
+    (0) S' -> expression .
+
+
+
+state 2
+
+    (1) expression -> func .
+    (2) expression -> func . doc
+    (18) doc -> . COMMENT
+
+    $end            reduce using rule 1 (expression -> func .)
+    COMMENT         shift and go to state 5
+
+    doc                            shift and go to state 4
+
+state 3
+
+    (4) func -> NAME . LPAREN funcargs RPAREN
+    (5) func -> NAME . LPAREN funcargs RPAREN funcret
+
+    LPAREN          shift and go to state 6
+
+
+state 4
+
+    (2) expression -> func doc .
+
+    $end            reduce using rule 2 (expression -> func doc .)
+
+
+state 5
+
+    (18) doc -> COMMENT .
+
+    $end            reduce using rule 18 (doc -> COMMENT .)
+
+
+state 6
+
+    (4) func -> NAME LPAREN . funcargs RPAREN
+    (5) func -> NAME LPAREN . funcargs RPAREN funcret
+    (6) funcargs -> . empty
+    (7) funcargs -> . args
+    (8) funcargs -> . args LSBRACE COMMA optargs RSBRACE
+    (3) empty -> .
+    (9) args -> . args COMMA arg
+    (10) args -> . arg
+    (11) arg -> . NAME
+    (12) arg -> . argtype NAME
+    (13) argtype -> . LPAREN TYPE RPAREN
+
+    RPAREN          reduce using rule 3 (empty -> .)
+    NAME            shift and go to state 7
+    LPAREN          shift and go to state 8
+
+    funcargs                       shift and go to state 9
+    empty                          shift and go to state 10
+    args                           shift and go to state 11
+    arg                            shift and go to state 12
+    argtype                        shift and go to state 13
+
+state 7
+
+    (11) arg -> NAME .
+
+    LSBRACE         reduce using rule 11 (arg -> NAME .)
+    COMMA           reduce using rule 11 (arg -> NAME .)
+    RPAREN          reduce using rule 11 (arg -> NAME .)
+    EQ              reduce using rule 11 (arg -> NAME .)
+
+
+state 8
+
+    (13) argtype -> LPAREN . TYPE RPAREN
+
+    TYPE            shift and go to state 14
+
+
+state 9
+
+    (4) func -> NAME LPAREN funcargs . RPAREN
+    (5) func -> NAME LPAREN funcargs . RPAREN funcret
+
+    RPAREN          shift and go to state 15
+
+
+state 10
+
+    (6) funcargs -> empty .
+
+    RPAREN          reduce using rule 6 (funcargs -> empty .)
+
+
+state 11
+
+    (7) funcargs -> args .
+    (8) funcargs -> args . LSBRACE COMMA optargs RSBRACE
+    (9) args -> args . COMMA arg
+
+    RPAREN          reduce using rule 7 (funcargs -> args .)
+    LSBRACE         shift and go to state 16
+    COMMA           shift and go to state 17
+
+
+state 12
+
+    (10) args -> arg .
+
+    LSBRACE         reduce using rule 10 (args -> arg .)
+    COMMA           reduce using rule 10 (args -> arg .)
+    RPAREN          reduce using rule 10 (args -> arg .)
+
+
+state 13
+
+    (12) arg -> argtype . NAME
+
+    NAME            shift and go to state 18
+
+
+state 14
+
+    (13) argtype -> LPAREN TYPE . RPAREN
+
+    RPAREN          shift and go to state 19
+
+
+state 15
+
+    (4) func -> NAME LPAREN funcargs RPAREN .
+    (5) func -> NAME LPAREN funcargs RPAREN . funcret
+    (17) funcret -> . RET TYPE
+
+    COMMENT         reduce using rule 4 (func -> NAME LPAREN funcargs RPAREN .)
+    $end            reduce using rule 4 (func -> NAME LPAREN funcargs RPAREN .)
+    RET             shift and go to state 21
+
+    funcret                        shift and go to state 20
+
+state 16
+
+    (8) funcargs -> args LSBRACE . COMMA optargs RSBRACE
+
+    COMMA           shift and go to state 22
+
+
+state 17
+
+    (9) args -> args COMMA . arg
+    (11) arg -> . NAME
+    (12) arg -> . argtype NAME
+    (13) argtype -> . LPAREN TYPE RPAREN
+
+    NAME            shift and go to state 7
+    LPAREN          shift and go to state 8
+
+    arg                            shift and go to state 23
+    argtype                        shift and go to state 13
+
+state 18
+
+    (12) arg -> argtype NAME .
+
+    LSBRACE         reduce using rule 12 (arg -> argtype NAME .)
+    COMMA           reduce using rule 12 (arg -> argtype NAME .)
+    RPAREN          reduce using rule 12 (arg -> argtype NAME .)
+    EQ              reduce using rule 12 (arg -> argtype NAME .)
+
+
+state 19
+
+    (13) argtype -> LPAREN TYPE RPAREN .
+
+    NAME            reduce using rule 13 (argtype -> LPAREN TYPE RPAREN .)
+
+
+state 20
+
+    (5) func -> NAME LPAREN funcargs RPAREN funcret .
+
+    COMMENT         reduce using rule 5 (func -> NAME LPAREN funcargs RPAREN funcret .)
+    $end            reduce using rule 5 (func -> NAME LPAREN funcargs RPAREN funcret .)
+
+
+state 21
+
+    (17) funcret -> RET . TYPE
+
+    TYPE            shift and go to state 24
+
+
+state 22
+
+    (8) funcargs -> args LSBRACE COMMA . optargs RSBRACE
+    (14) optargs -> . optargs LSBRACE COMMA optargs RSBRACE
+    (15) optargs -> . optarg
+    (16) optarg -> . arg EQ VALUE
+    (11) arg -> . NAME
+    (12) arg -> . argtype NAME
+    (13) argtype -> . LPAREN TYPE RPAREN
+
+    NAME            shift and go to state 7
+    LPAREN          shift and go to state 8
+
+    optargs                        shift and go to state 25
+    optarg                         shift and go to state 26
+    arg                            shift and go to state 27
+    argtype                        shift and go to state 13
+
+state 23
+
+    (9) args -> args COMMA arg .
+
+    LSBRACE         reduce using rule 9 (args -> args COMMA arg .)
+    COMMA           reduce using rule 9 (args -> args COMMA arg .)
+    RPAREN          reduce using rule 9 (args -> args COMMA arg .)
+
+
+state 24
+
+    (17) funcret -> RET TYPE .
+
+    COMMENT         reduce using rule 17 (funcret -> RET TYPE .)
+    $end            reduce using rule 17 (funcret -> RET TYPE .)
+
+
+state 25
+
+    (8) funcargs -> args LSBRACE COMMA optargs . RSBRACE
+    (14) optargs -> optargs . LSBRACE COMMA optargs RSBRACE
+
+    RSBRACE         shift and go to state 29
+    LSBRACE         shift and go to state 28
+
+
+state 26
+
+    (15) optargs -> optarg .
+
+    RSBRACE         reduce using rule 15 (optargs -> optarg .)
+    LSBRACE         reduce using rule 15 (optargs -> optarg .)
+
+
+state 27
+
+    (16) optarg -> arg . EQ VALUE
+
+    EQ              shift and go to state 30
+
+
+state 28
+
+    (14) optargs -> optargs LSBRACE . COMMA optargs RSBRACE
+
+    COMMA           shift and go to state 31
+
+
+state 29
+
+    (8) funcargs -> args LSBRACE COMMA optargs RSBRACE .
+
+    RPAREN          reduce using rule 8 (funcargs -> args LSBRACE COMMA optargs RSBRACE .)
+
+
+state 30
+
+    (16) optarg -> arg EQ . VALUE
+
+    VALUE           shift and go to state 32
+
+
+state 31
+
+    (14) optargs -> optargs LSBRACE COMMA . optargs RSBRACE
+    (14) optargs -> . optargs LSBRACE COMMA optargs RSBRACE
+    (15) optargs -> . optarg
+    (16) optarg -> . arg EQ VALUE
+    (11) arg -> . NAME
+    (12) arg -> . argtype NAME
+    (13) argtype -> . LPAREN TYPE RPAREN
+
+    NAME            shift and go to state 7
+    LPAREN          shift and go to state 8
+
+    optargs                        shift and go to state 33
+    optarg                         shift and go to state 26
+    arg                            shift and go to state 27
+    argtype                        shift and go to state 13
+
+state 32
+
+    (16) optarg -> arg EQ VALUE .
+
+    RSBRACE         reduce using rule 16 (optarg -> arg EQ VALUE .)
+    LSBRACE         reduce using rule 16 (optarg -> arg EQ VALUE .)
+
+
+state 33
+
+    (14) optargs -> optargs LSBRACE COMMA optargs . RSBRACE
+    (14) optargs -> optargs . LSBRACE COMMA optargs RSBRACE
+
+    RSBRACE         shift and go to state 34
+    LSBRACE         shift and go to state 28
+
+
+state 34
+
+    (14) optargs -> optargs LSBRACE COMMA optargs RSBRACE .
+
+    RSBRACE         reduce using rule 14 (optargs -> optargs LSBRACE COMMA optargs RSBRACE .)
+    LSBRACE         reduce using rule 14 (optargs -> optargs LSBRACE COMMA optargs RSBRACE .)
+
